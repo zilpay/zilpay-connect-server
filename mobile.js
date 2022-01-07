@@ -38,5 +38,5 @@ client.on('connect', function(connection) {
   send();
 });
 
-client.connect('ws://localhost:8080/', 'echo-protocol');
+client.connect('ws://localhost:8080/', 'zilpay-connects');
 

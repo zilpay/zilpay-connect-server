@@ -7,7 +7,7 @@
  * Copyright (c) 2021 ZilPay
  */
 import http from 'http';
-import { server as WebSocketServer } from 'websocket';
+import { request, server as WebSocketServer } from 'websocket';
 import { MessageQueue } from './queue';
 import { Message } from './message';
 import { MessageTypes } from './config/types';
@@ -34,15 +34,8 @@ function originIsAllowed(origin: string) {
   return true;
 }
 
-wsServer.on('request', function(request) {
-  if (!originIsAllowed(request.origin)) {
-    // Make sure we only accept requests from an allowed origin
-    request.reject();
-    console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-    return;
-  }
-
-  const connection = request.accept('echo-protocol', request.origin);
+function hanlde(request: request) {
+  const connection = request.accept('zilpay-connect', request.origin);
 
   connection.on('message', function(message) {
     if (message.type !== 'utf8') {
@@ -78,4 +71,20 @@ wsServer.on('request', function(request) {
   connection.on('close', function(reasonCode, description) {
     console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
   });
+}
+
+wsServer.on('request', function(request) {
+  if (!originIsAllowed(request.origin)) {
+    // Make sure we only accept requests from an allowed origin
+    request.reject();
+    console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
+    return;
+  }
+
+  try {
+    hanlde(request);
+  } catch (err) {
+    request.reject();
+    console.log(err);
+  }
 });
