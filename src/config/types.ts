@@ -6,8 +6,8 @@
  * -----
  * Copyright (c) 2021 ZilPay
  */
-import { server } from './ws-server';
 
-server.listen(8080, function() {
-  console.log((new Date()) + ' Server is listening on port 8080');
-});
+export enum MessageTypes {
+  Share = 'Share',
+  Connect = 'Connect'
+}
