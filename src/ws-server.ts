@@ -11,6 +11,7 @@ import { request, server as WebSocketServer } from 'websocket';
 import { MessageQueue } from './queue';
 import { Message } from './message';
 import { MessageTypes } from './config/types';
+import { URL } from 'url';
 
 const queue = new MessageQueue();
 export const server = http.createServer(function(request, response) {
@@ -29,8 +30,11 @@ const wsServer = new WebSocketServer({
   autoAcceptConnections: false
 });
 
-function originIsAllowed(origin: string) {
-  // put logic here to detect whether the specified origin is allowed.
+function guard(request: request) {
+  const url = new URL(request.origin);
+  console.log(url.protocol);
+  // console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
+  // request.reject();
   return true;
 }
 
@@ -75,11 +79,10 @@ function hanlde(request: request) {
 }
 
 wsServer.on('request', function(request) {
-  if (!originIsAllowed(request.origin)) {
-    // Make sure we only accept requests from an allowed origin
-    request.reject();
-    console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-    return;
+  try {
+    guard(request)
+  } catch {
+    return null;
   }
 
   try {
