@@ -8,7 +8,7 @@ client.on('connectFailed', function(error) {
 });
 
 client.on('connect', function(connection) {
-  const uuid = 'e89bcbae-f43d-482a-8967-e730b9027930';
+  const uuid = '9d8bafb90be556f6d8f7';
   console.log('WebSocket Client Connected');
   connection.on('error', function(error) {
       console.log("Connection Error: " + error.toString());

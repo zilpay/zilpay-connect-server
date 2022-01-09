@@ -84,7 +84,6 @@ wsServer.on('request', function(request) {
   try {
     hanlde(request);
   } catch (err) {
-    request.reject();
     console.log(err);
   }
 });
