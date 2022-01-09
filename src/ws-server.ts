@@ -70,7 +70,7 @@ function hanlde(request: request) {
 
   connection.on('close', function() {
     console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-    // queue.filter();
+    queue.filter();
   });
 }
 
