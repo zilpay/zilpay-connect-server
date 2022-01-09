@@ -3,5 +3,6 @@ export const protocols = [
   'moz-extension:',
   'opera-extension:',
   'safari-web-extension:',
-  'extension:'
+  'extension:',
+  'http:'
 ];

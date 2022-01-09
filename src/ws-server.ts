@@ -12,6 +12,8 @@ import { MessageQueue } from './queue';
 import { Message } from './message';
 import { MessageTypes } from './config/types';
 import { URL } from 'url';
+import { protocols } from './config/allowed-protocols';
+import { assert } from 'console';
 
 const queue = new MessageQueue();
 export const server = http.createServer(function(request, response) {
@@ -32,10 +34,8 @@ const wsServer = new WebSocketServer({
 
 function guard(request: request) {
   const url = new URL(request.origin);
-  console.log(url.protocol);
-  // console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-  // request.reject();
-  return true;
+
+  assert(protocols.indexOf(url.protocol), 'Incorect protocol');
 }
 
 function hanlde(request: request) {
@@ -81,7 +81,8 @@ function hanlde(request: request) {
 wsServer.on('request', function(request) {
   try {
     guard(request)
-  } catch {
+  } catch (err) {
+    console.log(err.message);
     return null;
   }
 
