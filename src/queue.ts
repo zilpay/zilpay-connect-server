@@ -17,10 +17,6 @@ export class MessageQueue {
     return this.#list.find((msg) => msg.uuid === uuid);
   }
 
-  public getAll() {
-    return this.#list;
-  }
-
   public add(msg: Message): void {
     this.#list.push(msg);
     this.#update();
