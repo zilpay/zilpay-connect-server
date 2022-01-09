@@ -35,7 +35,7 @@ const wsServer = new WebSocketServer({
 function guard(request: request) {
   const url = new URL(request.origin);
 
-  assert(protocols.indexOf(url.protocol), 'Incorect protocol');
+  assert(protocols.includes(url.protocol), 'Incorect protocol');
 }
 
 function hanlde(request: request) {
@@ -83,6 +83,7 @@ wsServer.on('request', function(request) {
     guard(request)
   } catch (err) {
     console.log(err.message);
+    request.reject();
     return null;
   }
 
