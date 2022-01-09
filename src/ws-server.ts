@@ -55,8 +55,9 @@ function hanlde(request: request) {
           break;
         case MessageTypes.Connect:
           const msg = queue.get(uuid);
+          console.log(msg.serialize);
           connection.send(msg.serialize);
-          // queue.remove(uuid);
+          queue.remove(uuid);
           connection.close();
           break;
         default:
