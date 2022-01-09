@@ -34,6 +34,12 @@ export class MessageQueue {
     });
   }
 
+  public filter() {
+    this.#list = this.#list.filter((msg) => {
+      return msg.cur.state !== 'closed';
+    });
+  }
+
   #update() {
     this.#list = this.#list.filter((msg) => {
       return (new Date().getTime() - msg.timestamp) < QUEUE_TIME_IS_OVER;
